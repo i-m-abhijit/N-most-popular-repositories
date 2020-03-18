@@ -8,10 +8,13 @@ def Sort_Tuple(repo_fork):
 orgname = input("Enter the Organisation name:")
 number_of_repo = int(input("Enter number of popular repositories:"))
 number_of_committees = int(input("Enter number of popular committees:"))
+repo_fork=[]
+for i in range(1,20):
+    params = {'page': i, 'per_page':100}
+    r = requests.get('https://api.github.com/orgs/'+orgname+'/repos', params=params)
+    todos = json.loads(r.text)
+    repo_fork.extend([(sub['full_name'],sub['forks_count']) for sub in todos])
 
-r = requests.get('https://api.github.com/orgs/'+orgname+'/repos')
-todos = json.loads(r.text)
-repo_fork = [(sub['full_name'],sub['forks_count']) for sub in todos] 
 Sort_Tuple(repo_fork)
 k=1
 for i in repo_fork[0:number_of_repo]:
@@ -27,4 +30,3 @@ for i in repo_fork[0:number_of_repo]:
         m+=1
     print()
     print()
-
