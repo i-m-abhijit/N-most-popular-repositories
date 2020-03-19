@@ -14,7 +14,8 @@ for i in range(1,20):
     r = requests.get('https://api.github.com/orgs/'+orgname+'/repos', params=params)
     todos = json.loads(r.text)
     repo_fork.extend([(sub['full_name'],sub['forks_count']) for sub in todos])
-
+    if(len(repo_fork)<i*100):
+        break
 Sort_Tuple(repo_fork)
 k=1
 for i in repo_fork[0:number_of_repo]:
